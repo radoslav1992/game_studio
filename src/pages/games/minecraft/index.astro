@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Minecraft" description="Play Minecraft online at DuckMath!">
+  <div class="hub-page">
+    <a href="/games/" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Games
+    </a>
+    <h1>Minecraft</h1>
+    <div class="hub-grid">
+      <a href="/games/minecraft/singleplayer/" class="hub-card">
+        <img src="/img/icons/minecraft.webp" alt="Minecraft Singleplayer" width="200" height="200" />
+        <span>Singleplayer</span>
+      </a>
+      <a href="/games/minecraft/multiplayer/" class="hub-card">
+        <img src="/img/icons/mc-multiplayer.webp" alt="Minecraft Multiplayer" width="200" height="200" />
+        <span>Multiplayer</span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hub-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    transition: color var(--transition);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+  }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .hub-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    transition: all 0.25s ease;
+  }
+
+  .hub-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .hub-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+  }
+
+  .hub-card span {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+</style>

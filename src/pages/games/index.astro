@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GameCard from "../../components/GameCard.astro";
+import { games, CATEGORIES } from "../../data/games";
+---
+
+<BaseLayout title="Games" description="Play your favorite online games free now!">
+  <div class="games-page">
+    <div class="games-header">
+      <h1>Games</h1>
+      <div class="search-wrapper">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+          <path d="M13 13L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search games..."
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div class="category-filters" id="categoryFilters">
+      <button class="filter-btn active" data-category="All">All</button>
+      {CATEGORIES.map((cat) => (
+        <button class="filter-btn" data-category={cat}>{cat}</button>
+      ))}
+    </div>
+
+    <div class="games-grid" id="gamesGrid">
+      {games.map((game) => (
+        <GameCard game={game} />
+      ))}
+    </div>
+
+    <p class="no-results" id="noResults">No games found. Try a different search.</p>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+    const grid = document.getElementById('gamesGrid')!;
+    const cards = Array.from(grid.querySelectorAll('.game-card')) as HTMLElement[];
+    const filterBtns = Array.from(document.querySelectorAll('.filter-btn')) as HTMLButtonElement[];
+    const noResults = document.getElementById('noResults')!;
+
+    let activeCategory = 'All';
+
+    const filterCards = () => {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const search = card.dataset.search ?? '';
+        const category = card.dataset.category ?? '';
+
+        const matchesSearch = !query || search.includes(query);
+        const matchesCategory = activeCategory === 'All' || category === activeCategory;
+        const visible = matchesSearch && matchesCategory;
+
+        card.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    };
+
+    searchInput.addEventListener('input', filterCards);
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.category ?? 'All';
+        filterCards();
+      });
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .games-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .games-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+  }
+
+  .search-wrapper {
+    position: relative;
+    width: 300px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  #searchInput {
+    width: 100%;
+    padding: 12px 16px 12px 42px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  #searchInput:focus {
+    border-color: var(--accent);
+  }
+
+  #searchInput::placeholder {
+    color: var(--text-muted);
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .filter-btn {
+    padding: 8px 18px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .no-results {
+    display: none;
+    text-align: center;
+    color: var(--text-muted);
+    padding: 48px 0;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 768px) {
+    .games-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .search-wrapper {
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .games-grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      font-size: 0.8rem;
+    }
+  }
+</style>

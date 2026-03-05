@@ -1,3 +1,18 @@
-*.idea
+# Astro
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
 *.iml
 *.xml
+.vscode/
+
+# OS
+.DS_Store
+
+# Build
+*.log

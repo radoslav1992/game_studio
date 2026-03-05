@@ -1,0 +1,27 @@
+---
+import GameLayout from "../../layouts/GameLayout.astro";
+import { games } from "../../data/games";
+import { gameSources } from "../../data/gameSources";
+
+export function getStaticPaths() {
+  return games
+    .filter((game) => {
+      const source = gameSources[game.id];
+      return source && source.type !== "hub";
+    })
+    .map((game) => {
+      const slug = game.href.replace("/games/", "");
+      return { params: { slug }, props: { game } };
+    });
+}
+
+const { game } = Astro.props;
+const source = gameSources[game.id];
+---
+
+<GameLayout
+  title={game.title}
+  gameType={source.type}
+  gameSrc={source.src}
+  redirectUrl={source.redirectUrl}
+/>

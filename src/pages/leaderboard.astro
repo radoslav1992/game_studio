@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Leaderboard" description="Check your scores">
+  <div class="leaderboard-page">
+    <h1>Leaderboard</h1>
+    <a class="submit-link" href="https://forms.gle/v9cfj6Dw7rzDduTA8" target="_blank" rel="noopener">
+      Submit a score!
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M6 3H13V10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <div class="sheet-container">
+      <iframe
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQBTw7sJq1ic6w_JZ5gwxFGPkpnRNMcYWt8xVie5ITGH6EpkQsWM5AaJ4lSyJFsLpOOFCZyRF0nV0lf/pubhtml?widget=true&amp;headers=false"
+        width="100%"
+        height="500"
+        style="overflow: hidden; border: none;"
+        title="Leaderboard"
+      ></iframe>
+    </div>
+    <div class="fun-gif">
+      <a href="https://github.com/maddox05" target="_blank" rel="noopener">
+        <img src="/img/club-penguin-dance.gif" alt="Club Penguin Dance" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .leaderboard-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .submit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 32px;
+    transition: color var(--transition);
+  }
+
+  .submit-link:hover {
+    color: var(--accent-hover);
+  }
+
+  .sheet-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .sheet-container iframe {
+    display: block;
+    border: none;
+  }
+
+  .fun-gif {
+    margin-top: 40px;
+  }
+
+  .fun-gif img {
+    max-width: 200px;
+    border-radius: var(--radius-md);
+  }
+</style>

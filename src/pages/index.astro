@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GameCard from "../components/GameCard.astro";
+import { getRecommendedGames } from "../data/games";
+
+const recommended = getRecommendedGames();
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Duck<span class="highlight">Math</span>
+      </h1>
+      <p class="hero-subtitle">Enjoy all your favorite applications!</p>
+      <p class="hero-note">Please consider turning off your ad-blocker — it helps keep this site running. Thanks!</p>
+      <div class="hero-actions">
+        <a href="/games/" class="btn btn-primary">
+          Play Now
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="https://github.com/duckmath/duckmath.github.io" target="_blank" rel="noopener" class="btn btn-secondary">
+          GitHub
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3H13V10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="recommended">
+    <div class="section-inner">
+      <h2 class="section-title">Recommended</h2>
+      <div class="recommended-grid">
+        {recommended.map((game) => (
+          <GameCard game={game} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - var(--nav-height));
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    padding: 0 24px;
+  }
+
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -2px;
+  }
+
+  .highlight {
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .hero-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    background: var(--glass);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .recommended {
+    padding: 80px 0;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+
+    .recommended-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+  }
+</style>
