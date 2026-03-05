@@ -1,0 +1,158 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About" description="About DuckMath">
+  <div class="about-page">
+    <h1>About</h1>
+
+    <div class="about-grid">
+      <div class="about-card main-card">
+        <img class="cert-img" src="/img/google-cert.webp" alt="Google Search Award" width="240" height="320" />
+      </div>
+
+      <div class="about-card bio-card">
+        <p>
+          Hey! I'm <strong>Maddox</strong>. I'm 18, been coding for 3 years now and am
+          going to Purdue for computer science.
+        </p>
+        <p>
+          I hope you guys enjoy this site — this was my first really big project. Love you guys!
+        </p>
+      </div>
+
+      <div class="about-card support-card">
+        <h2>Support the Project</h2>
+        <p>If you've enjoyed the site and want to help keep it running, consider a donation.</p>
+        <a href="https://www.paypal.com/paypalme/maddoxpublic" target="_blank" rel="noopener" class="support-link">
+          <img src="/img/paypal_icon.png" alt="PayPal" width="48" height="48" />
+          <span>Donate via PayPal</span>
+        </a>
+      </div>
+
+      <div class="about-card github-card">
+        <h2>Open Source</h2>
+        <p>DuckMath is open source! Check out the code and contribute.</p>
+        <a href="https://github.com/maddox05" target="_blank" rel="noopener" class="github-link">
+          <img src="/img/github_logo.png" alt="GitHub" width="48" height="48" />
+          <span>View on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .about-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+
+  .main-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cert-img {
+    border-radius: var(--radius-md);
+    object-fit: cover;
+  }
+
+  .bio-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .bio-card p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .bio-card strong {
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .support-card p,
+  .github-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .support-link,
+  .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: all 0.25s ease;
+  }
+
+  .support-link:hover,
+  .github-link:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .support-link img,
+  .github-link img {
+    border-radius: var(--radius-sm);
+  }
+
+  .support-link span,
+  .github-link span {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-card {
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

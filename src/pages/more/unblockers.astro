@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const unblockers = [
+  { name: "Nebula", icon: "/img/icons/nebula.webp", href: "/more/proxies/nebula/" },
+  { name: "Holy UB", icon: "/img/icons/holyub.webp", href: "/more/proxies/holy-ub/" },
+  { name: "Youtube", icon: "/img/icons/yt.webp", href: "/more/proxies/youtube/" },
+  { name: "R@mmerHe@d", icon: "/img/icons/ram.webp", href: "/more/proxies/rammerhead/" },
+  { name: "Google", icon: "/img/icons/google-icon.webp", href: "/more/proxies/google/" },
+];
+---
+
+<BaseLayout title="Unblockers" description="Web proxy tools">
+  <div class="hub-page">
+    <h1>Unblockers</h1>
+    <div class="hub-grid">
+      {unblockers.map((item) => (
+        <a href={item.href} class="hub-card">
+          <img src={item.icon} alt={item.name} width="120" height="120" loading="lazy" />
+          <span>{item.name}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hub-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+  }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .hub-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    transition: all 0.25s ease;
+  }
+
+  .hub-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .hub-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+  }
+
+  .hub-card span {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+</style>

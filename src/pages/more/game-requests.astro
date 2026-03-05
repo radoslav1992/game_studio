@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Game Requests" description="Request a game to be added to DuckMath">
+  <div class="requests-page">
+    <h1>Game Requests</h1>
+    <p class="subtitle">Want a game added to DuckMath? Fill out the form below!</p>
+    <div class="form-container">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfl8WFpII6qqq2YUwCagaTLSNOMJUG9D28CXLEmIi7MHoFmIA/viewform?embedded=true"
+        width="100%"
+        height="800"
+        style="border: none;"
+        title="Game Request Form"
+      ></iframe>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .requests-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    text-align: center;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    font-size: 1.05rem;
+  }
+
+  .form-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .form-container iframe {
+    display: block;
+    border: none;
+  }
+</style>

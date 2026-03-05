@@ -1,0 +1,242 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  gameType: "iframe" | "flash" | "hub" | "redirect";
+  gameSrc?: string;
+  redirectUrl?: string;
+}
+
+const IFRAME_SANDBOX = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-same-origin allow-downloads";
+const IFRAME_ALLOW = "autoplay; fullscreen; camera; focus-without-user-activation *; monetization; gamepad; keyboard-map *; xr-spatial-tracking; clipboard-write";
+
+const { title, gameType, gameSrc, redirectUrl } = Astro.props;
+---
+
+<BaseLayout title={title} description={`Play ${title} free online at DuckMath!`}>
+  <div class="game-page">
+    <div class="game-header">
+      <a href="/games/" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Games
+      </a>
+      <h1>{title}</h1>
+    </div>
+
+    {gameType === "iframe" && gameSrc && (
+      <div class="game-container">
+        <iframe
+          id="gameFrame"
+          class="game-frame"
+          src={gameSrc}
+          sandbox={IFRAME_SANDBOX}
+          allow={IFRAME_ALLOW}
+          allowfullscreen
+          scrolling="no"
+          title={title}
+        ></iframe>
+        <div class="game-controls">
+          <button id="fullscreenBtn" class="control-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 6V2H6M12 2H16V6M16 12V16H12M6 16H2V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Fullscreen
+          </button>
+        </div>
+      </div>
+    )}
+
+    {gameType === "flash" && gameSrc && (
+      <div class="game-container">
+        <div id="ruffle" class="game-frame flash-frame"></div>
+        <div class="game-controls">
+          <button id="ruffleFullscreenBtn" class="control-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M2 6V2H6M12 2H16V6M16 12V16H12M6 16H2V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Fullscreen
+          </button>
+        </div>
+        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+        <script define:vars={{ gameSrc }}>
+          document.addEventListener('DOMContentLoaded', () => {
+            const ruffle = window.RufflePlayer.newest();
+            const container = document.getElementById('ruffle');
+            const player = container.appendChild(ruffle.createPlayer());
+            player.style.width = '100%';
+            player.style.height = '100%';
+            player.load({ url: gameSrc });
+          });
+        </script>
+      </div>
+    )}
+
+    {gameType === "redirect" && redirectUrl && (
+      <div class="redirect-container">
+        <p>This game opens in a new window.</p>
+        <a href={redirectUrl} target="_blank" rel="noopener" class="btn btn-primary">
+          Launch {title}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3H13V10M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    )}
+
+    {gameType === "hub" && (
+      <div class="hub-container">
+        <slot />
+      </div>
+    )}
+  </div>
+
+  <script>
+    const gameFrame = document.getElementById('gameFrame') as HTMLIFrameElement | null;
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const ruffleFullscreenBtn = document.getElementById('ruffleFullscreenBtn');
+
+    gameFrame?.addEventListener('mouseenter', () => gameFrame.focus());
+
+    fullscreenBtn?.addEventListener('click', () => {
+      if (gameFrame?.requestFullscreen) {
+        gameFrame.requestFullscreen();
+      }
+    });
+
+    ruffleFullscreenBtn?.addEventListener('click', () => {
+      alert('To Fullscreen, Right Click the Game and hit Enter Fullscreen');
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .game-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  .game-header {
+    margin-bottom: 24px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    transition: color var(--transition);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .game-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .game-frame {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: none;
+    display: block;
+  }
+
+  .flash-frame {
+    min-height: 600px;
+  }
+
+  .game-controls {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .control-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .control-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+
+  .redirect-container,
+  .hub-container {
+    text-align: center;
+    padding: 64px 24px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .redirect-container p {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  @media (max-width: 768px) {
+    .game-page {
+      padding: 20px 16px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .flash-frame {
+      min-height: 400px;
+    }
+  }
+</style>

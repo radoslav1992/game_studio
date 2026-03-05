@@ -1,0 +1,381 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const SITE_NAME = "DuckMath";
+const GA_ID = "G-63K8BHHS38";
+const ADS_CLIENT = "ca-pub-1533872335883359";
+
+const {
+  title = SITE_NAME,
+  description = "Welcome to DuckMath.org, where you can learn and have fun!",
+  ogImage = "/img/goose_big.png",
+} = Astro.props;
+
+const pageTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="title" content={pageTitle} />
+  <meta name="description" content={description} />
+  <meta name="language" content="English" />
+
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={canonicalUrl.href} />
+  <meta property="og:type" content="website" />
+
+  <link rel="canonical" href={canonicalUrl.href} />
+  <link rel="icon" type="image/x-icon" href="/img/duck.png" />
+
+  <title>{pageTitle}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet" />
+
+  <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS_CLIENT}`} crossorigin="anonymous"></script>
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/img/goose.webp" alt="DuckMath" width="40" height="40" />
+        <span>DuckMath</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/games/">Games</a>
+        <a href="/leaderboard/">Leaderboard</a>
+        <a href="/changelog/">Changelog</a>
+        <a href="/about/">About</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn">More <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="nav-dropdown-content">
+            <a href="/more/unblockers/">Unblockers</a>
+            <a href="/more/virtual-machines/">Virtual Machines</a>
+            <a href="/more/chat/">Discord</a>
+            <a href="/more/game-requests/">Game Requests</a>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2022-{new Date().getFullYear()} DuckMath - All Rights Reserved.</p>
+      <a href="https://github.com/duckmath/duckmath.github.io" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.mobile-toggle');
+    const links = document.querySelector('.nav-links');
+    toggle?.addEventListener('click', () => {
+      links?.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-card-hover: #1a2744;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --accent-glow: rgba(233, 69, 96, 0.3);
+    --text-primary: #eaeaea;
+    --text-secondary: #a0a0b8;
+    --text-muted: #6c6c80;
+    --border: rgba(255, 255, 255, 0.06);
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --nav-height: 70px;
+    --transition: 200ms ease;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  main {
+    min-height: calc(100vh - var(--nav-height) - 80px);
+    padding-top: var(--nav-height);
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background: rgba(15, 15, 26, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    transition: opacity var(--transition);
+  }
+
+  .nav-logo:hover {
+    opacity: 0.8;
+  }
+
+  .nav-logo img {
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo:hover img {
+    transform: rotate(360deg);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-links > a,
+  .nav-dropdown-btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .nav-links > a:hover,
+  .nav-dropdown-btn:hover {
+    color: var(--text-primary);
+    background: var(--glass);
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 6px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-dropdown:hover .nav-dropdown-content {
+    display: block;
+  }
+
+  .nav-dropdown-content a {
+    display: block;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+  }
+
+  .nav-dropdown-content a:hover {
+    background: var(--glass);
+    color: var(--text-primary);
+  }
+
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .mobile-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .mobile-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .footer-inner a {
+    color: var(--text-secondary);
+    transition: color var(--transition);
+  }
+
+  .footer-inner a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-toggle {
+      display: flex;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: rgba(15, 15, 26, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 2px;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links > a,
+    .nav-dropdown-btn {
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-dropdown-content {
+      position: static;
+      box-shadow: none;
+      border: none;
+      background: rgba(255, 255, 255, 0.02);
+      margin-top: 4px;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-content {
+      display: block;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+  }
+</style>
